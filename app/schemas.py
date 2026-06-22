@@ -9,8 +9,8 @@ class Coordinate(BaseModel):
 
 
 class RouteType(str, Enum):
-    HIKING = "foot-hiking"
-    CAR = "car-fast"
+    HIKING = "foot_hiking"
+    CAR = "car_fast"
 
 
 class RouteRequest(BaseModel):

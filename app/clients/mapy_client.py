@@ -15,6 +15,7 @@ class MapyClient:
                 f"{settings.MAPY_BASE_URL}/geocode",
                 params={
                     "query": query,
+                    "lang": "pl",
                     "apikey": settings.MAPY_API_KEY,
                 }
             )

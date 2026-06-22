@@ -33,27 +33,25 @@ class MapyClient:
         route_type: str,
         waypoints: list,
     ):
-
-        params = {
-            "start": f"{start_lon},{start_lat}",
-            "end": f"{end_lon},{end_lat}",
-            "routeType": route_type,
-            "apikey": settings.MAPY_API_KEY,
-        }
+        params = [
+            ("start", str(start_lon)),
+            ("start", str(start_lat)),
+            ("end", str(end_lon)),
+            ("end", str(end_lat)),
+            ("routeType", route_type),
+            ("apikey", settings.MAPY_API_KEY),
+        ]
 
         if waypoints:
-            params["waypoints"] = "|".join(
-                [
-                    f"{point.lon},{point.lat}"
-                    for point in waypoints
-                ]
-            )
+            for point in waypoints:
+                params.append(
+                    ("waypoints", f"{point.lon},{point.lat}")
+                )
 
         async with httpx.AsyncClient(timeout=30.0) as client:
-
             response = await client.get(
                 f"{settings.MAPY_BASE_URL}/routing/route",
-                params=params
+                params=params,
             )
 
             response.raise_for_status()

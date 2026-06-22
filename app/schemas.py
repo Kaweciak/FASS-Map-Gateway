@@ -9,57 +9,51 @@ class Coordinate(BaseModel):
 
 
 class RouteType(str, Enum):
-
-    FOOT_FAST = "foot-fast"
-
-    FOOT_HIKING = "foot-hiking"
-
-    CAR_FAST = "car-fast"
-
-    CAR_SHORT = "car-short"
-
-    BICYCLE_ROAD = "bicycle-road"
-
-    BICYCLE_MOUNTAIN = "bicycle-mountain"
-
-
-class GeometryFormat(str, Enum):
-    GEOJSON = "geojson"
-    POLYLINE = "polyline"
+    HIKING = "foot-hiking"
+    CAR = "car-fast"
 
 
 class RouteRequest(BaseModel):
-
     start: Coordinate
     end: Coordinate
-
-    routeType: RouteType = RouteType.FOOT_FAST
-
-    format: GeometryFormat = GeometryFormat.GEOJSON
-
-    avoidToll: bool = False
-
-    avoidHighways: bool = False
-
+    routeType: RouteType = RouteType.HIKING
     waypoints: Optional[List[Coordinate]] = []
-
-    departure: Optional[str] = None
 
 
 class GeocodeRequest(BaseModel):
     query: str
 
 
-class StaticMapRequest(BaseModel):
-    lat: float
+class MarkerColor(str, Enum):
+    RED = "red"
+    GREEN = "green"
+    BLUE = "blue"
+    ORANGE = "orange"
+    YELLOW = "yellow"
+    BLACK = "black"
+    WHITE = "white"
+
+
+class MarkerSize(str, Enum):
+    SMALL = "small"
+    NORMAL = "normal"
+    LARGE = "large"
+
+
+class Marker(BaseModel):
     lon: float
-    zoom: int = 15
+    lat: float
+    color: MarkerColor = MarkerColor.RED
+    size: MarkerSize = MarkerSize.NORMAL
+    label: Optional[str] = None
+
+
+class StaticMapRequest(BaseModel):
+    lon: float
+    lat: float
+    zoom: int = 13
     width: int = 600
     height: int = 400
     scale: int = 1
     padding: Optional[int] = None
-    lang: Optional[str] = None
-    # Each entry is a raw marker string, e.g. "color:red;size:normal;14.421,50.088"
-    markers: List[str] = []
-    # Each entry is a raw shape string, e.g. "color:green;path:[...]"
-    shapes: List[str] = []
+    markers: Optional[List[Marker]] = []

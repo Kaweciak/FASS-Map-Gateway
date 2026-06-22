@@ -11,9 +11,5 @@ async def calculate_route(request):
         end_lat=request.end.lat,
         end_lon=request.end.lon,
         route_type=request.routeType.value,
-        geometry_format=request.format.value,
-        avoid_toll=request.avoidToll,
-        avoid_highways=request.avoidHighways,
         waypoints=request.waypoints,
-        departure=request.departure,
     )

@@ -31,25 +31,15 @@ class MapyClient:
         end_lat: float,
         end_lon: float,
         route_type: str,
-        geometry_format: str,
-        avoid_toll: bool,
-        avoid_highways: bool,
         waypoints: list,
-        departure: str,
     ):
 
         params = {
             "start": f"{start_lon},{start_lat}",
             "end": f"{end_lon},{end_lat}",
             "routeType": route_type,
-            "format": geometry_format,
-            "avoidToll": str(avoid_toll).lower(),
-            "avoidHighways": str(avoid_highways).lower(),
             "apikey": settings.MAPY_API_KEY,
         }
-
-        if departure:
-            params["departure"] = departure
 
         if waypoints:
             params["waypoints"] = "|".join(
@@ -82,7 +72,6 @@ class MapyClient:
         markers: list,
     ) -> bytes:
 
-        # httpx accepts repeated keys as a list of (key, value) tuples
         params: list[tuple[str, Union[str, int, float]]] = [
             ("lon", lon),
             ("lat", lat),
@@ -99,8 +88,6 @@ class MapyClient:
         if padding is not None:
             params.append(("padding", padding))
 
-        # Each marker becomes a separate "markers" query param.
-        # Format: color:<c>;size:<s>[;label:<l>];<lon>,<lat>
         for marker in markers:
             parts = [
                 f"color:{marker.color.value}",

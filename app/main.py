@@ -20,7 +20,7 @@ app.include_router(
 
 app.include_router(
     static_map_router,
-    prefix="api/maps"
+    prefix="/api/maps"
 )
 
 

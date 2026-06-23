@@ -10,17 +10,17 @@ app = FastAPI(
 
 app.include_router(
     geocode_router,
-    prefix="/api/maps"
+    prefix="/maps"
 )
 
 app.include_router(
     routing_router,
-    prefix="/api/maps"
+    prefix="/maps"
 )
 
 app.include_router(
     static_map_router,
-    prefix="/api/maps"
+    prefix="/maps"
 )
 
 
